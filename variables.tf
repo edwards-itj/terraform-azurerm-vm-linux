@@ -1,11 +1,11 @@
 locals {
   resource_group_name = try(azurerm_resource_group.this[0].name, data.azurerm_resource_group.this[0].name, null)
   virtual_machine_names = flatten([for v in range(0, var.virtual_machine_count) : [
-    var.virtual_machine_name == null ? join("-", concat(
+    var.virtual_machine_name == null ? join("-", compact(concat(
       ["${module.naming.linux_virtual_machine.slug}"],
-      ["${var.app_name}${format("%02d", v + 1)}"],
+      [try("${var.app_name}${format("%02d", v + 1)}", "${format("%02d", v + 1)}")],
       local.suffix
-    )) : "${var.virtual_machine_name}${format("%02d", v + 1)}"
+    ))) : "${var.virtual_machine_name}${format("%02d", v + 1)}"
   ]])
   subnet_name                   = try(azurerm_subnet.this[0].name, data.azurerm_subnet.this[0].name)
   subnet_id                     = provider::azurerm::normalise_resource_id(try(azurerm_subnet.this[0].id, data.azurerm_subnet.this[0].id))

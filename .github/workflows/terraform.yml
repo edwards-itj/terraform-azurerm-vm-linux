@@ -12,10 +12,9 @@ env:
   terraform_version: "1.9.5"
 
 jobs:
-  terraform:
+  build:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -70,8 +69,23 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false -out tf.tfplan
 
+  deploy:
+    name: 'Terraform Apply'
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [ dev, prod ]
+    environment: ${{ matrix.environment }}
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply

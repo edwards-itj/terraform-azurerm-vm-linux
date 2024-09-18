@@ -10,5 +10,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = var.subscription_id
+  subscription_id = try(var.subscription_id, null)
+  use_cli         = true
 }
