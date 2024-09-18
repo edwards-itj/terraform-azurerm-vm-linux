@@ -50,7 +50,7 @@ resource "azurerm_subnet" "this" {
 
 resource "azurerm_network_interface" "this" {
   count               = var.virtual_machine_count
-  name                = var.network_interface_name == null ? "${local.virtual_machine_names[count.index]}-nic01" : "${var.network_interface_name}${count.indext}"
+  name                = var.network_interface_name == null ? "${local.virtual_machine_names[count.index]}-nic01" : "${var.network_interface_name}${count.index}"
   location            = var.location
   resource_group_name = local.resource_group_name
 
