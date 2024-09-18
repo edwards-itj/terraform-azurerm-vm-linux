@@ -7,7 +7,7 @@ locals {
       local.suffix
     )) : "${var.virtual_machine_name}${format("%02d", v + 1)}"
   ]])
-  subnet_name = try(azurerm_subnet.this[0].name, data.azurerm_subnet.this[0].name)
+  subnet_name                   = try(azurerm_subnet.this[0].name, data.azurerm_subnet.this[0].name)
   subnet_id                     = provider::azurerm::normalise_resource_id(try(azurerm_subnet.this[0].id, data.azurerm_subnet.this[0].id))
   key_vault_name                = try(azurerm_key_vault.this[0].name, data.azurerm_key_vault.this[0].name)
   key_vault_id                  = provider::azurerm::normalise_resource_id(try(azurerm_key_vault.this[0].id, data.azurerm_key_vault.this[0].id, null))
