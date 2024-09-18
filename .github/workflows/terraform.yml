@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  terraform_version: "1.9.5"
+
 jobs:
   terraform:
     name: 'Terraform'
@@ -26,7 +29,9 @@ jobs:
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ env.terraform_version }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -41,6 +46,7 @@ jobs:
       run: terraform fmt -check
   
     - name: Run Trivy scanner
+      if: github.event_name == 'pull_request'
       uses: aquasecurity/trivy-action@0.24.0
       with:
         scan-type: config
@@ -48,6 +54,7 @@ jobs:
         output: trivy.txt
     
     - name: Publish Trivy Output to Summary
+      if: github.event_name == 'pull_request'
       run: |
         if [[ -s trivy.txt ]]; then
           {

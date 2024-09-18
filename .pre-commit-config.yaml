@@ -9,7 +9,7 @@ repos:
     - id: terraform_trivy
       args:
       - --args=--severity HIGH,CRITICAL
-      - --args=--exit-code 0 # To get it to pass
+      - --args=--exit-code 1
     - id: infracost_breakdown
       args:
       - --args=--path .

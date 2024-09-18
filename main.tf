@@ -84,11 +84,13 @@ resource "tls_private_key" "this" {
   rsa_bits  = 4096
 }
 
+#trivy:ignore:avd-azu-0017 (LOW)
 resource "azurerm_key_vault_secret" "privatekey" {
   count        = var.admin_login_type == "ssh" ? local.ssh_key_count : 0
   name         = "${local.virtual_machine_names[count.index]}-ssh"
   value        = tls_private_key.this[count.index].private_key_pem
   key_vault_id = local.key_vault_id
+  content_type = "privatekey"
 }
 
 resource "azurerm_ssh_public_key" "this" {
