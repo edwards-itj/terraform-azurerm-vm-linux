@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Terraform Check'
 
 on:
   push:
@@ -83,10 +83,11 @@ jobs:
         script: |
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outputs.stdout }}\`
           #### Terraform Initialization ⚙️\`${{ steps.init.outputs.stdout }}\`
-          #### Terraform Plan 📖\`${{ steps.plan.outputs.stdout }}\``;
+          #### Terraform Plan 📖\`${{ steps.plan.outputs.stdout }}\`
+          #### Scan Results \`${{ steps.plan.outputs.stdout }}\``;
           github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `## Terraform checks\n` + output + `\n##Scan Results`
+            body: `## Terraform checks\n` + output
           })
