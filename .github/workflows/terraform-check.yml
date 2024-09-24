@@ -71,6 +71,7 @@ jobs:
             echo "</details>"
           } >> $GITHUB_STEP_SUMMARY
         fi
+        cat trivy.txt
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
@@ -91,6 +92,14 @@ jobs:
     
           \`\`\`\n
           ${{ steps.plan.outputs.stdout }}
+          \`\`\`
+    
+          </details>
+
+          <details><summary>Show Trivy Results</summary>
+    
+          \`\`\`\n
+          ${{ steps.scan.outputs.stdout }}
           \`\`\`
     
           </details>
