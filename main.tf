@@ -16,7 +16,7 @@ module "azure_region" {
 }
 
 data "azurerm_client_config" "current" {}
-
+# test
 data "azurerm_resource_group" "this" {
   count = var.create_resource_group == false ? 1 : 0
 
