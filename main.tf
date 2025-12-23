@@ -10,7 +10,7 @@ module "naming" {
 
 module "azure_region" {
   source  = "claranet/regions/azurerm"
-  version = "7.2.0"
+  version = "8.0.2"
 
   azure_region = var.location
 }
