@@ -1,6 +1,6 @@
 module "naming" {
   source  = "Azure/naming/azurerm"
-  version = "0.4.1"
+  version = "0.4.2"
   suffix = compact([
     var.app_name,
     var.environment,
