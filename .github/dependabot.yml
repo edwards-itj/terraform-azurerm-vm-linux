@@ -9,4 +9,4 @@ updates:
     directory: ".github/workflows/."
     schedule:
       interval: "daily"
-      time: "16:35"
+      time: "16:40"
